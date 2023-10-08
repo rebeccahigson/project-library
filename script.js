@@ -188,8 +188,10 @@ const books = [
 
 // Variables for HTML elements by ID
 const container = document.getElementById("container");
-const filterDropdownGenre = document.getElementById("filterDropdownGenre");
-const faveBooks = [];
+const filterDropdown = document.getElementById("filterDropdown");
+const sortButton = document.getElementById("sortButton");
+// const faveBooks = [];
+
 
 // Load all books when page loads
 const loadBooks = (bookArray) => {
@@ -197,12 +199,12 @@ const loadBooks = (bookArray) => {
   container.innerHTML = ""
 
   bookArray.forEach((book) => {
-    //console.log(`${book.title} is a good book`)
+    // console.log(`${book.title} is a good book`)
 
     // Adds the populated card to the HTML
     container.innerHTML += `
       <div class="card">
-        <img src="${book.image}">
+        <img src="${book.image}" art="${book.title}">
         <p class="title"><b>Title:</b> ${book.title}</p>
         <p class="author"><b>Author:</b> ${book.author}</p>
         <p class="style.css"><b>Released:</b> ${book.year}</p>
@@ -211,8 +213,20 @@ const loadBooks = (bookArray) => {
       `;
   });
 };
+/*
+// Not working
+const filterBooks = () => {
+  const value = filterDropdown.value.toLowerCase();
 
+  if (value === "all") {
+    loadBooks(books);
 
+  } else {
+    const filteredList = books.filter((book) => book.genre.toLocaleLowerCase() === value);
+
+    loadBooks(filteredList);
+  }
+};*/
 
 
 //Filters
@@ -236,39 +250,54 @@ const filterBooks = () => {
 // Make options case insensitive
 /*-------------------------------------------*/
 
-/*------------------------------------------- */
-// A-Z filtering
-books.sort((a, b) => {
-  const titleA = a.title.toLowerCase(); // Convert titles to lowercase for case-insensitive sorting
-  const titleB = b.title.toLowerCase();
-  if (titleA < titleB) {
-    return -1; // a should come before b in the sorted order
-  }
-  if (titleA > titleB) {
-    return 1; // a should come after b in the sorted order
-  }
-  return 0; // titles are equal
-});
 
-/*-------------------------------------------*/
-/*
-const orderThem = () => {
-  // order the books alphabetically
-  let bookOrder = "B";
-  if (bookOrder === "A") {
-    console.log(books.sort());
+
+// Initial sort direction A-Z
+let sortDirection = "az";
+
+const sortBooks = () => {
+  // Toggle between A-Z anb Z-A
+  sortDirection = sortDirection === "az" ? "za" : "az";
+
+  if (sortDirection === "az") {
+    // Sort books A-Z by title
+    books.sort((a, b) => {
+      const titleA = a.title.toLowerCase();
+      const titleB = b.title.toLowerCase();
+      return titleA.localeCompare(titleB);
+    });
+
+    // Update button text to A-Z
+    sortButton.textContent = "Sort by title A-Z";
 
   } else {
-    console.log(books.reverse());
-  };
+    // Sort books in Z-A by title
+    books.sort((a, b) => {
+      const titleA = a.title.toLowerCase();
+      const titleB = b.title.toLowerCase();
+      return titleB.localeCompare(titleA);
+    });
+
+    // Update button text to Z-A
+    sortButton.textContent = "Sort by title Z-A";
+  }
+
+
+  filterBooks();
 };
-orderThem()*/
+
+
 
 // eventListeners
-// Apply the filter when the user changes the dropdown selection.
+// Apply the filter when the user changes the dropdown selection
 filterDropdown.addEventListener("change", filterBooks);
 
-// Loading the array
+// Toggle A-Z sorting button
+sortButton.addEventListener("click", sortBooks);
+
+
+
+// Loading the books array
 loadBooks(books)
 
 
