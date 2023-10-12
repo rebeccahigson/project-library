@@ -206,6 +206,7 @@ const loadBooks = (bookArray) => {
       <div class="card">
         <img src="${book.image}" art="${book.title}">
         <p class="title"><b>Title:</b> ${book.title}</p>
+        <p class="description"> ${book.description}</p>
         <p class="author"><b>Author:</b> ${book.author}</p>
         <p class="style.css"><b>Released:</b> ${book.year}</p>
         <p class="rating"><b>Rating:</b> ${book.rating}</p>
